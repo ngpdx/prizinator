@@ -29,6 +29,8 @@ module.exports = function(config) {
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/angular-touch/angular-touch.js',
       'bower_components/random/lib/random.min.js',
+      'bower_components/ngstorage/ngStorage.js',
+      'bower_components/oauth-ng/dist/oauth-ng.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',
