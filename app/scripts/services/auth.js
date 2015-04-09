@@ -1,13 +1,20 @@
 (function (angular) {
 'use strict';
 
+/**
+ * TODO:
+ * 1. Fetch user stuff on page reload.
+ * 2. Handle when token expires.
+ * 3. Create some sort of accompanying directive.
+ * 4.
+ */
 angular.module('prizinator.auth', [])
   .service('oauth', oauth);
 
-function oauth($window) {
+function oauth($window, $q, $location) {
   var redirectUri = window.location.href;
   var clientId = '';
-  var accessToken = '';
+  var response = {};
   var scopes = [];
   var redirect = false;
 
@@ -20,12 +27,6 @@ function oauth($window) {
   return service;
 
   function init(param) {
-    if (redirect) {
-      redirectRoutine();
-    } else {
-      popupRoutine();
-    }
-
     /* We need a MeetUp consumer id to make the authorization request. */
     if (param.clientId) {
       clientId = param.clientId;
@@ -42,12 +43,19 @@ function oauth($window) {
     if (typeof param.redirect === 'boolean') {
       redirect = param.redirect;
     }
+
+    var promise;
+    if (redirect) {
+      promise = redirectRoutine();
+    } else {
+      promise = popupRoutine();
+    }
+
+    return promise;
   }
 
   function login() {
-    var deferred = $q.defer();
     requestAuthorization();
-    return deferred.promise;
   }
 
   function logout() {
@@ -70,22 +78,49 @@ function oauth($window) {
     }
   }
 
+  function setResponse(accessToken, error, deferred) {
+    if (accessToken) {
+      response = {accessToken: accessToken};
+      deferred.resolve(response);
+    } else {
+      response = {error: error};
+      deferred.reject(response);
+    }
+  }
+
   function popupRoutine() {
-    /* Redirected within popup once the user authorizes our app. */
     if ($window.opener) {
-      var hash = $window.location.hash;
-      var token = getHashValue(hash, 'access_token');
-      var error = getHashValue(hash, 'error');
-      localStorage.authAccessToken = token;
-      localStorage.authError = error;
-      $window.close();
+      ppPopupRoutine();
+    } else {
+      var promise = ppMainWindowRoutine();
     }
-    /* Main window. Fetch customized URL from popup. */
-    else {
-      angular.element($window).bind('storage', function () {
-        accessToken = localStorage.authAccessToken;
-      });
+
+    return promise;
+  }
+
+  /** Redirection within popup once the user authorizes our app. */
+  function ppPopupRoutine() {
+    var hash = $window.location.hash;
+    var token = getHashValue(hash, 'access_token');
+    var error = getHashValue(hash, 'error');
+    localStorage.authAccessToken = token;
+    localStorage.authError = error;
+    $window.close();
+  }
+
+  /** Main window. Fetch customized URL from popup. */
+  function ppMainWindowRoutine() {
+    var deferred = $q.defer();
+
+    angular.element($window).unbind('storage', store);
+    angular.element($window).bind('storage', store);
+    function store() {
+      var token = localStorage.authAccessToken;
+      var error = localStorage.authError;
+      setResponse(token, error, deferred);
     }
+
+    return deferred.promise;
   }
 
   function openWindow(authUrl) {
@@ -101,12 +136,20 @@ function oauth($window) {
       'left=' + left + ',');
   }
 
+  /** Return a promise for the sake of consistency. */
   function redirectRoutine() {
+    var deferred = $q.defer();
     var hash = $window.location.hash;
-    var userId = getHashValue(hash, 'user_id');
-    if (userId) {
-      localStorage.userId = userId;
+    var token = getHashValue(hash, 'access_token');
+    var error = getHashValue(hash, 'error');
+
+    if (token || error) {
+      setResponse(token, error, deferred);
     }
+
+    $location.url($location.path());
+
+    return deferred.promise;
   }
 }
 
