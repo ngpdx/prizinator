@@ -20,6 +20,8 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
+
+
     <!-- Add your site or application content here -->
     <div class="header">
       <div class="navbar navbar-default" role="navigation">
@@ -42,6 +44,13 @@
               <li class="active"><a href="#/">Add Prizes</a></li>
               <li><a ng-href="#/about">Select Winner</a></li>
               <li><a ng-href="#/">Event Selection</a></li>
+              <li><oauth
+                site="https://secure.meetup.com/"
+                authorize-path="oauth2/authorize"
+                client-id="2u49eaf0199mm9tl2mp53n8s3d"
+                redirect-uri="http://localhost:9000"
+                scope="ageless">
+              </oauth></li>
             </ul>
           </div>
         </div>
@@ -82,6 +91,8 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/random/lib/random.min.js"></script>
+    <script src="bower_components/ngstorage/ngStorage.js"></script>
+    <script src="bower_components/oauth-ng/dist/oauth-ng.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
