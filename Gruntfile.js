@@ -7,6 +7,7 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
+
 module.exports = function (grunt) {
 
   // Load grunt tasks automatically
@@ -14,6 +15,7 @@ module.exports = function (grunt) {
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
+
 
   // Configurable paths for the application
   var appConfig = {
