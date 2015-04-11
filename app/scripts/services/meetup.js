@@ -24,7 +24,7 @@ angular.module('angularPrizinatorApp')
       _key = value;
     };
   })
-  .service('meetup', function ($http, meetupConfiguration, random) {
+  .service('meetup', function ($http, meetupConfiguration, oauth,  random) {
     this.getEvents = function (groupUrlname) {
       return $http.get(meetupConfiguration.getBaseUri() + 'events?group_urlname=' + groupUrlname + '&key=' + meetupConfiguration.getKey())
         .then(function (response) {
@@ -33,7 +33,18 @@ angular.module('angularPrizinatorApp')
         .then(function (data) {
           return data.results;
         });
-    }
+    };
+
+    this.getUser = function () {
+      var params = {
+        callback:'JSON_CALLBACK',
+        access_token: oauth.getUser().accessToken
+      };
+      return $http.jsonp(meetupConfiguration.getBaseUri() + '2/member/self', {params: params})
+        .then(function (response) {
+          return response.data;
+        });
+    };
 
     this.getRsvpNames = function (eventId) {
       return $http.get(meetupConfiguration.getBaseUri() + 'rsvps?event_id=' + eventId + '&key=' + meetupConfiguration.getKey())
@@ -52,5 +63,5 @@ angular.module('angularPrizinatorApp')
         .then(function (names) {
           return random.shuffle(names);
         });
-    }
+    };
   });
