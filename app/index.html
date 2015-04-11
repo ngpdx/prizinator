@@ -44,13 +44,7 @@
               <li class="active"><a href="#/">Add Prizes</a></li>
               <li><a ng-href="#/about">Select Winner</a></li>
               <li><a ng-href="#/">Event Selection</a></li>
-              <li><oauth
-                site="https://secure.meetup.com/"
-                authorize-path="oauth2/authorize"
-                client-id="2u49eaf0199mm9tl2mp53n8s3d"
-                redirect-uri="http://localhost:9000"
-                scope="ageless">
-              </oauth></li>
+              <li><pi-login></pi-login></li>
             </ul>
           </div>
         </div>
@@ -100,8 +94,11 @@
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
+        <script src="scripts/controllers/login.js"></script>
+        <script src="scripts/directives/login.js"></script>
         <script src="scripts/services/meetup.js"></script>
         <script src="scripts/services/random.js"></script>
+        <script src="scripts/services/auth.js"></script>
         <!-- endbuild -->
 </body>
 </html>

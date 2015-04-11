@@ -6,8 +6,8 @@ angular.module('angularPrizinatorApp.auth', [])
 
 function loginCtrl($scope, oauth, meetup, meetupConfiguration) {
   oauth.init({
-    'clientId': meetupConfiguration.clientId,
-    'redirect': false,
+    'clientId': meetupConfiguration.getClientId(),
+    'redirect': true,
     'scopes': ['ageless']
   }).then(function () {
     fetch();

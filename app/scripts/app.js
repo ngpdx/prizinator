@@ -10,6 +10,7 @@
  */
 angular
   .module('angularPrizinatorApp', [
+    'angularPrizinatorApp.auth',
     'ngAnimate',
     'ngCookies',
     'ngResource',

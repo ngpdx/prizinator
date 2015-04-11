@@ -11,6 +11,7 @@ angular.module('angularPrizinatorApp')
   .service('meetupConfiguration', function () {
     var _baseUri = 'https://api.meetup.com/';
     var _key = null;
+    var _clientId = '2u49eaf0199mm9tl2mp53n8s3d';
     this.getBaseUri = function () {
       return _baseUri;
     };
@@ -23,6 +24,9 @@ angular.module('angularPrizinatorApp')
     this.setKey = function (value) {
       _key = value;
     };
+    this.getClientId = function () {
+      return _clientId;
+    }
   })
   .service('meetup', function ($http, meetupConfiguration, oauth,  random) {
     this.getEvents = function (groupUrlname) {

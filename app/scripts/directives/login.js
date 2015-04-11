@@ -1,7 +1,7 @@
 (function (angular) {
 'use strict';
 
-angular.module('angularPrizinatorApp.auth', [])
+angular.module('angularPrizinatorApp.auth')
   .directive('piLogin', login);
 
 function login() {

@@ -1,7 +1,7 @@
 (function (angular) {
 'use strict';
 
-angular.module('angularPrizinatorApp.auth', [])
+angular.module('angularPrizinatorApp.auth')
   .service('oauth', oauth);
 
 function oauth($window, $q, $location) {
@@ -116,7 +116,8 @@ function oauth($window, $q, $location) {
     angular.element($window).unbind('storage', store);
     angular.element($window).bind('storage', store);
     function store(event) {
-      if (event.key === 'authUser') {
+      var key = event.key || event.originalEvent.key;
+      if (key === 'authUser') {
         var user = getUser();
         resolve(user, deferred);
       }
