@@ -1,0 +1,9 @@
+<div class="login" ng-switch="isLogged()">
+  <div ng-switch-when="false">
+    <button ng-click="login()">LOG IN</button>
+  </div>
+  <div ng-switch-when="true">
+    <div class="login-thumb" ng-style="thumb"></div>
+    <button ng-click="logout()">LOG OUT</button>
+  </div>
+</div>
