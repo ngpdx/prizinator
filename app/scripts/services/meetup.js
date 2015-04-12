@@ -40,11 +40,7 @@ angular.module('angularPrizinatorApp')
     };
 
     this.getUser = function () {
-      var params = {
-        callback:'JSON_CALLBACK',
-        access_token: oauth.getUser().accessToken
-      };
-      return $http.jsonp(meetupConfiguration.getBaseUri() + '2/member/self', {params: params})
+      return $http.get(meetupConfiguration.getBaseUri() + '2/member/self?access_token=' + oauth.getUser().accessToken)
         .then(function (response) {
           return response.data;
         });
