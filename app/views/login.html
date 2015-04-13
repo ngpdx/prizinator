@@ -1,0 +1,10 @@
+<div class="oauth" ng-switch="isLogged()">
+  <div ng-switch-when="false">
+    <span ng-click="login()">LOG IN</span>
+  </div>
+  <div ng-switch-when="true"> <!-- Important lack of newline here. -->
+    <div class="oauth-thumb" ng-style="thumb"></div><span ng-click="logout()">
+      LOG OUT
+    </span>
+  </div>
+</div>
