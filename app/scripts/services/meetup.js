@@ -11,6 +11,7 @@ angular.module('angularPrizinatorApp')
   .service('meetupConfiguration', function () {
     var _baseUri = 'https://api.meetup.com/';
     var _key = null;
+    var _clientId = '2u49eaf0199mm9tl2mp53n8s3d';
     this.getBaseUri = function () {
       return _baseUri;
     };
@@ -23,8 +24,11 @@ angular.module('angularPrizinatorApp')
     this.setKey = function (value) {
       _key = value;
     };
+    this.getClientId = function () {
+      return _clientId;
+    }
   })
-  .service('meetup', function ($http, meetupConfiguration, random) {
+  .service('meetup', function ($http, meetupConfiguration, oauth,  random) {
     this.getEvents = function (groupUrlname) {
       return $http.get(meetupConfiguration.getBaseUri() + 'events?group_urlname=' + groupUrlname + '&key=' + meetupConfiguration.getKey())
         .then(function (response) {
@@ -33,7 +37,14 @@ angular.module('angularPrizinatorApp')
         .then(function (data) {
           return data.results;
         });
-    }
+    };
+
+    this.getUser = function () {
+      return $http.get(meetupConfiguration.getBaseUri() + '2/member/self?access_token=' + oauth.getUser().accessToken)
+        .then(function (response) {
+          return response.data;
+        });
+    };
 
     this.getRsvpNames = function (eventId) {
       return $http.get(meetupConfiguration.getBaseUri() + 'rsvps?event_id=' + eventId + '&key=' + meetupConfiguration.getKey())
@@ -52,5 +63,5 @@ angular.module('angularPrizinatorApp')
         .then(function (names) {
           return random.shuffle(names);
         });
-    }
+    };
   });

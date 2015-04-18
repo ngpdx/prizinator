@@ -81,6 +81,25 @@ body {
   }
 }
 
+.oauth {
+  margin-top:6.5px;
+  overflow: hidden;
+  height: 36px;
+}
+
+.oauth-thumb {
+  height: 36px;
+  width: 36px;
+  vertical-align: bottom;
+  background-size: cover;
+  background-position: center;
+  display: inline-block;
+  border-top-left-radius: 0.2em;
+  border-bottom-left-radius: 0.2em;
+  margin-right: -0.2em;
+  background-color:#999;
+}
+
 .oauth span {
   text-decoration: none;
   background: #239cbb;
